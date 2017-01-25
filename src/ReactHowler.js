@@ -31,6 +31,7 @@ class ReactHowler extends Component {
     if (typeof Howl !== 'undefined') { // Check if window is available
       this.howler = new Howl({
         src: props.src,
+        sprite: props.sprite,
         format: props.format,
         mute: props.mute,
         loop: props.loop,
@@ -46,6 +47,10 @@ class ReactHowler extends Component {
 
       if (props.playing) {
         this.play()
+      }
+
+      if (props.playSprite) {
+        this.play(props.playSprite)
       }
     }
   }
@@ -63,7 +68,7 @@ class ReactHowler extends Component {
   }
 
   toggleHowler (props) {
-    (props.playing) ? this.play() : this.pause()
+    (props.playing) ? this.play(props.playSprite) : this.pause()
     this.mute(props.mute)
     this.loop(props.loop)
 
@@ -89,11 +94,11 @@ class ReactHowler extends Component {
   /**
    * Begins playback of a sound when not playing
    */
-  play () {
+  play (sprite) {
     const playing = this.howler.playing()
 
     if (!playing) {
-      this.howler.play()
+      this.howler.play(sprite)
     }
   }
 
@@ -202,7 +207,9 @@ ReactHowler.propTypes = {
   onVolume: PropTypes.func,
   onStop: PropTypes.func,
   onLoad: PropTypes.func,
-  onLoadError: PropTypes.func
+  onLoadError: PropTypes.func,
+  sprite: PropTypes.obj,
+  playSprite: PropTypes.string
 }
 
 ReactHowler.defaultProps = {
